@@ -34,6 +34,7 @@ enum planck_layers {
   _RAISE,
   _ADJUST,
   _FUNCTION,
+  _MIDI
 };
 
 
@@ -84,6 +85,13 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,KC_MS_WH_DOWN,KC_MS_LEFT,KC_MS_DOWN,KC_MS_RIGHT,KC_MS_BTN2,
     KC_TRANSPARENT,LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT),KC_LGUI,KC_TRANSPARENT,
     KC_NO,KC_TRANSPARENT,KC_MS_BTN1,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT),
+
+  [_MIDI] = LAYOUT_planck_grid(
+    MI_C_3, MI_Cs_3, MI_D_3, MI_Ds_3, MI_E_3, MI_F_3, MI_Fs_3, MI_G_3, MI_Gs_3, MI_A_3, MI_As_3, MI_B_3,
+    MI_C_2, MI_Cs_2, MI_D_2, MI_Ds_2, MI_E_2, MI_F_2, MI_Fs_2, MI_G_2, MI_Gs_2, MI_A_2, MI_As_2, MI_B_2,
+    MI_C_1, MI_Cs_1, MI_D_1, MI_Ds_1, MI_E_1, MI_F_1, MI_Fs_1, MI_G_1, MI_Gs_1, MI_A_1, MI_As_1, MI_B_1,
+    TO(_BASE), KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
+  )
 
 };
 
@@ -142,6 +150,16 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {32,176,255}, {0,0,0},
             {243,222,234}, {169,120,255}, {0,0,0}, {0,0,0}, {0,0,0} },
 
+    [_MIDI] = { {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
+                {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
+                {134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},
+                {134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},
+                {134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},
+                {134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},
+                {85,203,158},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},
+                {0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0}
+    }
+
 };
 
 void set_layer_color(int layer) {
@@ -177,6 +195,9 @@ void rgb_matrix_indicators_user(void) {
       break;
     case 4:
       set_layer_color(4);
+      break;
+    case 5:
+      set_layer_color(5);
       break;
   }
 }
