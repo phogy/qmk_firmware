@@ -34,7 +34,9 @@ enum planck_layers {
   _RAISE,
   _ADJUST,
   _FUNCTION,
-  _MIDI,
+  _MIDIPAD,
+  _MIDIPIANO,
+  _MIDISCALE,
   _MOUSE
 };
 
@@ -75,23 +77,45 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_NO,KC_TRANSPARENT,KC_AUDIO_VOL_UP,KC_DOWN,KC_AUDIO_VOL_DOWN,KC_F12),
 
   [_ADJUST] = LAYOUT_planck_grid(
-    KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,AU_ON,AU_OFF,AU_TOG,KC_TRANSPARENT,KC_DELETE,RGB_TOG,RGB_VAI,RGB_VAD,KC_TRANSPARENT,RESET,KC_TRANSPARENT,KC_TRANSPARENT,MU_ON,MU_OFF,MU_TOG,KC_TRANSPARENT,TOGGLE_LAYER_COLOR,RGB_MOD,RGB_HUI,RGB_HUD,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_NO,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT),
+    KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
+    KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
+    KC_TRANSPARENT,KC_TRANSPARENT,AU_ON,AU_OFF,AU_TOG,KC_TRANSPARENT,
+    KC_DELETE,RGB_TOG,RGB_VAI,RGB_VAD,KC_TRANSPARENT,RESET,
+    KC_TRANSPARENT,KC_TRANSPARENT,MU_ON,MU_OFF,MU_TOG,KC_TRANSPARENT,
+    TOGGLE_LAYER_COLOR,RGB_MOD,RGB_HUI,RGB_HUD,KC_TRANSPARENT,KC_TRANSPARENT,
+    KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
+    KC_NO,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT),
 
   [_FUNCTION] = LAYOUT_planck_grid(
-    TO(_MIDI),TO(_MOUSE),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_RBRACKET,
+    TO(_MIDIPAD),TO(_MOUSE),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_RBRACKET,
     KC_TRANSPARENT,KC_TRANSPARENT,KC_7,KC_8,KC_9,LSFT(NO_APOS),
-    KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,LSFT(NO_ACUT),
+    TO(_MIDIPIANO),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,LSFT(NO_ACUT),
     KC_TRANSPARENT,KC_TRANSPARENT,KC_4,KC_5,KC_6,NO_MINS,
-    KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,NO_ACUT,
+    TO(_MIDISCALE),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,NO_ACUT,
     KC_TRANSPARENT,KC_TRANSPARENT,KC_1,KC_2,KC_3,NO_PLUS,
     KC_TRANSPARENT,LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT),KC_NO,KC_TRANSPARENT,
     KC_NO,KC_TRANSPARENT,KC_0,KC_DOT,KC_COMMA,KC_ENTER),
 
-  [_MIDI] = LAYOUT_planck_grid(
+  [_MIDIPAD] = LAYOUT_planck_grid(
     MI_C_3, MI_Cs_3, MI_D_3, MI_Ds_3, MI_E_3, MI_F_3, MI_Fs_3, MI_G_3, MI_Gs_3, MI_A_3, MI_As_3, MI_B_3,
     MI_C_2, MI_Cs_2, MI_D_2, MI_Ds_2, MI_E_2, MI_F_2, MI_Fs_2, MI_G_2, MI_Gs_2, MI_A_2, MI_As_2, MI_B_2,
     MI_C_1, MI_Cs_1, MI_D_1, MI_Ds_1, MI_E_1, MI_F_1, MI_Fs_1, MI_G_1, MI_Gs_1, MI_A_1, MI_As_1, MI_B_1,
-    TO(_BASE), KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO, KC_NO
+    TO(_BASE), KC_NO, KC_NO, KC_NO, MI_OCTD, MI_ALLOFF, KC_NO, MI_OCTU, KC_NO, KC_NO, MI_TRNSD, MI_TRNSU
+  ),
+
+  [_MIDIPIANO] = LAYOUT_planck_grid(
+    MI_VEL_1, MI_VEL_2, MI_VEL_3, MI_VEL_4, MI_VEL_5, MI_VEL_6,
+    MI_VEL_7, MI_VEL_8, MI_VEL_9, MI_VEL_10, KC_NO, KC_NO,
+    KC_NO, MI_Cs, MI_Ds, KC_NO, MI_Fs, MI_Gs, MI_As, KC_NO, MI_Cs_1, MI_Ds_1, KC_NO, MI_Fs_1,
+    MI_C, MI_D, MI_E, MI_F, MI_G, MI_A, MI_B, MI_C_1, MI_D_1, MI_E_1, MI_F_1, MI_G_1,
+    TO(_BASE), KC_NO, KC_NO, KC_NO, MI_OCTD, MI_ALLOFF, KC_NO, MI_OCTU, KC_NO, KC_NO, MI_TRNSD, MI_TRNSU
+  ),
+
+  [_MIDISCALE] = LAYOUT_planck_grid(
+    MI_B_1, MI_C_2, MI_D_2, MI_E_2, MI_F_2, MI_G_2, MI_A_2, MI_B_2, MI_C_3, MI_D_3, MI_E_3, MI_F_3,
+    MI_F_1, MI_G_1, MI_A_1, MI_B_1, MI_C_2, MI_D_2, MI_E_2, MI_F_2, MI_G_2, MI_A_2, MI_B_2, MI_C_3,
+    MI_C_1, MI_D_1, MI_E_1, MI_F_1, MI_G_1, MI_A_1, MI_B_1, MI_C_2, MI_D_2, MI_E_2, MI_F_2, MI_G_2,
+    TO(_BASE), KC_NO, KC_NO, KC_NO, MI_OCTD, MI_ALLOFF, KC_NO, MI_OCTU, KC_NO, KC_NO, MI_TRNSD, MI_TRNSU
   ),
 
   [_MOUSE] = LAYOUT_planck_grid(
@@ -152,23 +176,41 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {34,119,83}, {34,119,83}, {34,119,83}, {34,119,83}, {243,222,234}, {34,119,83},
             {243,222,234}, {34,119,83}, {34,119,83}, {34,119,83}, {34,119,83} },
 
-    [_FUNCTION] = { {134,255,128}, {31,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255},
+    [_FUNCTION] = { {134,255,255}, {31,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255},
             {0,0,0}, {0,0,0}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,0},
-            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255},
+            {134,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255},
             {134,255,213}, {0,0,0}, {0,0,255}, {0,0,255}, {0,0,255}, {85,203,158},
-            {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255},
+            {134,255,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,255},
             {134,255,213}, {0,0,0}, {0,0,255}, {0,0,255}, {0,0,255}, {85,203,158},
             {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0}, {0,0,0},
             {243,222,234}, {0,0,255}, {32,176,255}, {32,176,255}, {134,255,213} },
 
-    [_MIDI] = { {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
+    [_MIDIPAD] = { {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
                 {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
                 {134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},
                 {134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},{134,255,96},
                 {134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},
                 {134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},{134,255,64},
-                {85,203,158},{0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0},
-                {0,0,0},{0,0,0},{0,0,0},{0,0,0},{0,0,0} },
+                {85,203,158},{0,0,0},{0,0,0},{0,0,0},{243,222,234},{0,0,0},
+                {243,222,234},{0,0,0},{0,0,0},{32,176,255},{32,176,255} },
+
+    [_MIDIPIANO] = { {0,0,20},{0,0,40},{0,0,60},{0,0,80},{0,0,100},{0,0,120},
+                {0,0,140},{0,0,160},{0,0,180},{0,0,200},{0,0,0},{0,0,0},
+                {0,0,0},{134,255,213},{134,255,213},{0,0,0},{134,255,213},{134,255,213},
+                {134,255,213},{0,0,0},{134,255,213},{134,255,213},{0,0,0},{134,255,213},
+                {0,0,255},{0,0,255},{0,0,255},{0,0,255},{0,0,255},{0,0,255},
+                {0,0,255},{0,0,255},{0,0,255},{0,0,255},{0,0,255},{0,0,255},
+                {85,203,158},{0,0,0},{0,0,0},{0,0,0},{243,222,234},{0,0,0},
+                {243,222,234},{0,0,0},{0,0,0},{32,176,255},{32,176,255} },
+
+    [_MIDISCALE] = { {0,0,255},{134,255,213},{0,0,255},{0,0,255},{0,0,255},{0,0,255},
+                {0,0,255},{0,0,255},{134,255,213},{0,0,255},{0,0,255},{0,0,255},
+                {0,0,255},{0,0,255},{0,0,255},{0,0,255},{134,255,213},{0,0,255},
+                {0,0,255},{0,0,255},{0,0,255},{0,0,255},{0,0,255},{134,255,213},
+                {134,255,213},{0,0,255},{0,0,255},{0,0,255},{0,0,255},{0,0,255},
+                {0,0,255},{134,255,213},{0,0,255},{0,0,255},{0,0,255},{0,0,255},
+                {85,203,158},{0,0,0},{0,0,0},{0,0,0},{243,222,234},{0,0,0},
+                {243,222,234},{0,0,0},{0,0,0},{32,176,255},{32,176,255} },
 
     [_MOUSE] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
             {0,0,0}, {0,0,0}, {0,0,0}, {35,255,255}, {0,0,0}, {0,0,0},
@@ -198,29 +240,7 @@ void set_layer_color(int layer) {
 
 void rgb_matrix_indicators_user(void) {
   if (g_suspend_state || disable_layer_color) { return; }
-  switch (biton32(layer_state)) {
-    case 0:
-      set_layer_color(0);
-      break;
-    case 1:
-      set_layer_color(1);
-      break;
-    case 2:
-      set_layer_color(2);
-      break;
-    case 3:
-      set_layer_color(3);
-      break;
-    case 4:
-      set_layer_color(4);
-      break;
-    case 5:
-      set_layer_color(5);
-      break;
-    case 6:
-      set_layer_color(6);
-      break;
-  }
+  set_layer_color(biton32(layer_state));
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
