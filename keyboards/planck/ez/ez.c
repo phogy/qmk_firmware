@@ -116,10 +116,10 @@ void matrix_scan_kb(void) {
 }
 
 uint32_t layer_state_set_kb(uint32_t state) {
-
   palClearPad(GPIOB, 8);
   palClearPad(GPIOB, 9);
   state = layer_state_set_user(state);
+#if 0
   uint8_t layer = biton32(state);
   switch (layer) {
       case 3:
@@ -135,5 +135,6 @@ uint32_t layer_state_set_kb(uint32_t state) {
       default:
         break;
     }
+#endif
     return state;
 }
