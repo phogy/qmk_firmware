@@ -47,9 +47,9 @@ enum planck_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT_planck_grid(
             RALT(KC_7), RALT(KC_0), RALT(KC_8), RALT(KC_9), RALT(KC_4), KC_PSCREEN,
-            KC_INSERT, NO_APOS, LSFT(NO_PLUS), LSFT(KC_6), NO_LESS, LSFT(NO_LESS),
+            KC_RBRACKET, NO_APOS, LSFT(NO_PLUS), LSFT(KC_6), NO_LESS, LSFT(NO_LESS),
             NO_SCLN, NO_SLSH, NO_LPRN, NO_RPRN, RALT(NO_LESS), LSFT(KC_TAB),
-            KC_TRANSPARENT, LSFT(KC_3), NO_MINS, GRAVE_NORDIC, LSFT(KC_2), TILDE_NORDIC,
+            KC_DELETE, LSFT(KC_3), NO_MINS, GRAVE_NORDIC, LSFT(KC_2), TILDE_NORDIC,
             NO_COLN, NO_EQL, NO_AT, LSFT(KC_1), RALT(KC_MINUS), NO_UNDS,
             KC_ENTER, LSFT(KC_5), NO_PLUS, LSFT(NO_APOS), CIRC_NORDIC, NO_EURO,
             KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,KC_TRANSPARENT,
@@ -57,7 +57,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_BASE] = LAYOUT_planck_grid(
             NO_AM, NO_AE, NO_OSLH, KC_P, KC_Y, KC_ESCAPE,
-            KC_DELETE, KC_F, KC_G, KC_C, KC_R, KC_L,
+            NO_ACUT, KC_F, KC_G, KC_C, KC_R, KC_L,
             KC_A, KC_O, KC_E, KC_U, KC_I, KC_TAB,
             KC_BSPACE, KC_D, KC_H, KC_T, KC_N, KC_S,
             KC_DOT, KC_Q, KC_J, KC_K, KC_X, KC_COMMA,
@@ -68,7 +68,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_RAISE] = LAYOUT_planck_grid(
             KC_1,KC_2,KC_3,KC_4,KC_5,KC_TRANSPARENT,
-            KC_TRANSPARENT,KC_6,KC_7,KC_8,KC_9,KC_0,
+            KC_INSERT,KC_6,KC_7,KC_8,KC_9,KC_0,
             KC_F1,KC_F2,KC_F3,KC_F4,KC_F5,KC_TRANSPARENT,
             KC_TRANSPARENT,KC_PGUP,KC_HOME,KC_UP,KC_END,KC_F11,
             KC_F6,KC_F7,KC_F8,KC_F9,KC_F10,KC_TRANSPARENT,
@@ -141,7 +141,7 @@ void keyboard_post_init_user(void) {
 
 const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
     [_BASE] = { {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {134,255,213},
-            {249,228,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
+            {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
             {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {134,255,213},
             {134,255,213}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
             {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
@@ -150,16 +150,16 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {243,222,234}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,255} },
 
     [_LOWER] = { {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {205,200,255},
-            {134,255,213}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
+            {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
             {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {134,255,213},
-            {134,255,213}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
+            {249,228,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
             {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
             {134,255,213}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {243,222,234}, {0,0,0},
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0} },
 
     [_RAISE] = { {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {134,255,213},
-            {249,228,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
+            {134,255,213}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
             {85,203,158}, {85,203,158}, {85,203,158}, {85,203,158}, {85,203,158}, {141,255,233},
             {141,255,233}, {0,205,155}, {0,205,155}, {134,255,213}, {0,205,155}, {85,203,158},
             {85,203,158}, {85,203,158}, {85,203,158}, {85,203,158}, {85,203,158}, {0,0,255},
