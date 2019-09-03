@@ -130,6 +130,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 };
 
+#ifdef COMBO_ENABLE
+    const uint16_t PROGMEM escape_combo[] = {NO_AM, NO_AE, COMBO_END};
+    combo_t key_combos[COMBO_COUNT] = {COMBO(escape_combo, KC_ESC)};
+#endif
+
 
 extern bool g_suspend_state;
 extern rgb_config_t rgb_matrix_config;

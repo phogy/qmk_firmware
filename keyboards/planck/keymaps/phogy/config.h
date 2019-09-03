@@ -7,6 +7,9 @@
 #define MIDI_ADVANCED
 
 #define ENCODER_RESOLUTION 4
+#define COMBO_COUNT 1
+#define COMBO_TERM 80
+#define TAPPING_TERM 125
 
 /*
   Set any config.h overrides for your specific keymap here.
