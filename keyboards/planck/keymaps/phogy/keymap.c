@@ -132,7 +132,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 #ifdef COMBO_ENABLE
     const uint16_t PROGMEM escape_combo[] = {NO_AM, NO_AE, COMBO_END};
-    combo_t key_combos[COMBO_COUNT] = {COMBO(escape_combo, KC_ESC)};
+    const uint16_t PROGMEM tab_combo[] = {NO_AE, NO_OSLH, COMBO_END};
+    const uint16_t PROGMEM comma_combo[] = {KC_R, KC_L, COMBO_END};
+    const uint16_t PROGMEM dash_combo[] = {KC_D, KC_H, COMBO_END};
+
+    combo_t key_combos[COMBO_COUNT] = {COMBO(escape_combo, KC_ESC),
+                                       COMBO(tab_combo, KC_TAB),
+                                       COMBO(dash_combo, NO_MINS),
+                                       COMBO(comma_combo, KC_COMMA)};
 #endif
 
 
