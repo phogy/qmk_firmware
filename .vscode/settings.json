@@ -15,5 +15,7 @@
       "xstddef": "c",
       "type_traits": "c",
       "utility": "c"
-    }
+    },
+    "git.ignoreLimitWarning": true,
+    "C_Cpp.dimInactiveRegions": false
 }

@@ -7,6 +7,7 @@
 #include "keymap_spanish.h"
 #include "keymap_hungarian.h"
 #include "keymap_swedish.h"
+#include "led_tables.h"
 
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
@@ -20,9 +21,7 @@
 #define NO_ETH ALGR(KC_D)
 
 enum planck_keycodes {
-  RGB_SLD = SAFE_RANGE,
-  TOGGLE_LAYER_COLOR,
-  EPRM,
+  RGB_SLD = EZ_SAFE_RANGE,
   GRAVE_NORDIC,
   TILDE_NORDIC,
   CIRC_NORDIC
@@ -158,7 +157,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {134,255,213}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
             {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
             {134,255,213}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255}, {0,0,255},
-            {85,203,158}, {32,176,255}, {32,176,255}, {32,176,255}, {243,222,234}, {0,0,0},
+            {85,203,128}, {32,176,255}, {32,176,255}, {32,176,255}, {243,222,234}, {0,0,0},
             {243,222,234}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,255} },
 
     [_LOWER] = { {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {205,200,255},
@@ -234,6 +233,72 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {243,222,234}, {169,120,255}, {0,0,0}, {0,0,0}, {0,0,0} },
 };
 
+RGB old_hsv_to_rgb(HSV hsv) {
+    RGB      rgb;
+    uint8_t  region, remainder, p, q, t;
+    uint16_t h, s, v;
+
+    if (hsv.s == 0) {
+        rgb.r = hsv.v;
+        rgb.g = hsv.v;
+        rgb.b = hsv.v;
+        return rgb;
+    }
+
+    h = hsv.h;
+    s = hsv.s;
+    v = hsv.v;
+
+    region    = h * 6 / 255;
+    remainder = (h * 2 - region * 85) * 3;
+
+    p = (v * (255 - s)) >> 8;
+    q = (v * (255 - ((s * remainder) >> 8))) >> 8;
+    t = (v * (255 - ((s * (255 - remainder)) >> 8))) >> 8;
+
+    switch (region) {
+        case 6:
+        case 0:
+            rgb.r = v;
+            rgb.g = t;
+            rgb.b = p;
+            break;
+        case 1:
+            rgb.r = q;
+            rgb.g = v;
+            rgb.b = p;
+            break;
+        case 2:
+            rgb.r = p;
+            rgb.g = v;
+            rgb.b = t;
+            break;
+        case 3:
+            rgb.r = p;
+            rgb.g = q;
+            rgb.b = v;
+            break;
+        case 4:
+            rgb.r = t;
+            rgb.g = p;
+            rgb.b = v;
+            break;
+        default:
+            rgb.r = v;
+            rgb.g = p;
+            rgb.b = q;
+            break;
+    }
+
+#ifdef USE_CIE1931_CURVE
+    rgb.r = pgm_read_byte(&CIE1931_CURVE[rgb.r]);
+    rgb.g = pgm_read_byte(&CIE1931_CURVE[rgb.g]);
+    rgb.b = pgm_read_byte(&CIE1931_CURVE[rgb.b]);
+#endif
+
+    return rgb;
+}
+
 void set_layer_color(int layer) {
   for (int i = 0; i < DRIVER_LED_TOTAL; i++) {
     HSV hsv = {
@@ -242,43 +307,25 @@ void set_layer_color(int layer) {
       .v = pgm_read_byte(&ledmap[layer][i][2]),
     };
     if (!hsv.h && !hsv.s && !hsv.v) {
-        rgb_matrix_set_color( i, 0, 0, 0 );
+        rgb_matrix_set_color(i, 0, 0, 0);
     } else {
-        RGB rgb = hsv_to_rgb( hsv );
-        rgb_matrix_set_color( i, rgb.r, rgb.g, rgb.b );
+        RGB rgb = old_hsv_to_rgb(hsv);
+        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
     }
   }
 }
 
 void rgb_matrix_indicators_user(void) {
-  if (g_suspend_state || disable_layer_color) { return; }
+  if (g_suspend_state || keyboard_config.disable_layer_led) { return; }
+  
   set_layer_color(biton32(layer_state));
 }
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
-    case EPRM:
-      if (record->event.pressed) {
-        eeconfig_init();
-      }
-      return false;
     case RGB_SLD:
       if (record->event.pressed) {
         rgblight_mode(1);
-      }
-      return false;
-    case RGB_TOG:
-  if (record->event.pressed) {
-    if (rgb_matrix_config.val) {
-      rgb_matrix_sethsv(rgb_matrix_config.hue, rgb_matrix_config.sat, 0);
-    } else {
-      rgb_matrix_sethsv(rgb_matrix_config.hue, rgb_matrix_config.sat, 255);
-    }
-  }
-  return false;
-    case TOGGLE_LAYER_COLOR:
-      if (record->event.pressed) {
-        disable_layer_color ^= 1;
       }
       return false;
     case GRAVE_NORDIC:
