@@ -24,8 +24,7 @@ enum planck_keycodes {
   RGB_SLD = EZ_SAFE_RANGE,
   GRAVE_NORDIC,
   TILDE_NORDIC,
-  CIRC_NORDIC,
-  CMB_TOG //from the future
+  CIRC_NORDIC
 };
 
 enum planck_layers {
@@ -81,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
     TO(_MIDIPIANO),KC_TRANSPARENT,AU_TOG,MU_TOG,MU_MOD,KC_TRANSPARENT,
     KC_TRANSPARENT,RGB_TOG,RGB_VAI,RGB_VAD,KC_TRANSPARENT,RESET,
-    TO(_MIDISCALE),KC_TRANSPARENT,CMB_TOG,KC_CAPSLOCK,KC_TRANSPARENT,KC_TRANSPARENT,
+    TO(_MIDISCALE),KC_TRANSPARENT,CMB_TOG,KC_CAPSLOCK,LED_LEVEL,KC_TRANSPARENT,
     TOGGLE_LAYER_COLOR,RGB_MOD,RGB_HUI,RGB_HUD,KC_TRANSPARENT,KC_TRANSPARENT,
     TG(_FUNCTION),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
     KC_NO,KC_TRANSPARENT,KC_AUDIO_VOL_DOWN,KC_MEDIA_PLAY_PAUSE,KC_AUDIO_VOL_UP,KC_TRANSPARENT),
@@ -145,7 +144,6 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 extern bool g_suspend_state;
 extern rgb_config_t rgb_matrix_config;
-bool disable_layer_color = 0;
 
 void keyboard_post_init_user(void) {
   rgb_matrix_enable();
@@ -183,7 +181,7 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
             {134,255,255}, {0,0,0}, {243,222,234}, {32,176,255}, {134,255,213}, {0,0,0},
             {0,0,0}, {14,255,255}, {0,0,255}, {33,255,255}, {0,0,0}, {243,222,234},
-            {134,255,255}, {0,0,0}, {0,0,255}, {243,222,140}, {0,0,0}, {0,0,0},
+            {134,255,255}, {0,0,0}, {0,0,255}, {243,222,140}, {30,96,255}, {0,0,0},
             {0,0,255}, {30,96,255}, {33,255,255}, {33,255,255}, {0,0,0}, {0,0,0},
             {85,203,158}, {0,0,0}, {0,0,0}, {0,0,0}, {243,222,234}, {0,0,0},
             {243,222,234}, {34,119,255}, {34,119,255}, {34,119,255}, {0,0,0} },
@@ -416,24 +414,5 @@ bool music_mask_user(uint16_t keycode) {
     }
 }
 uint32_t layer_state_set_user(uint32_t state) {
-    palClearPad(GPIOB, 8);
-    palClearPad(GPIOB, 9);
-#if 0
-    uint8_t layer = biton32(state);
-    switch (layer) {
-        case _LOWER:
-            palSetPad(GPIOB, 9);
-            break;
-        case _RAISE:
-            palSetPad(GPIOB, 8);
-            break;
-        case _ADJUST:
-            palSetPad(GPIOB, 9);
-            palSetPad(GPIOB, 8);
-            break;
-        default:
-            break;
-    }
-#endif
     return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }

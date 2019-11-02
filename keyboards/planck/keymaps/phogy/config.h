@@ -18,6 +18,10 @@
 #define TAPPING_TERM 125
 #endif
 
+#define PLANCK_EZ_LED_LOWER 1
+#define PLANCK_EZ_LED_RAISE 2
+#define PLANCK_EZ_LED_ADJUST 3
+
 /*
   Set any config.h overrides for your specific keymap here.
   See config.h options at https://docs.qmk.fm/#/config_options?id=the-configh-file
