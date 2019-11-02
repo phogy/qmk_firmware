@@ -8,6 +8,7 @@
 #include "keymap_hungarian.h"
 #include "keymap_swedish.h"
 #include "led_tables.h"
+#include "rgb_matrix_types.h"
 
 #define KC_MAC_UNDO LGUI(KC_Z)
 #define KC_MAC_CUT LGUI(KC_X)
@@ -332,7 +333,8 @@ void set_layer_color(int layer) {
         rgb_matrix_set_color(i, 0, 0, 0);
     } else {
         RGB rgb = old_hsv_to_rgb(hsv);
-        rgb_matrix_set_color(i, rgb.r, rgb.g, rgb.b);
+        float f = (float)rgb_matrix_config.hsv.v / UINT8_MAX;
+        rgb_matrix_set_color( i, f * rgb.r, f * rgb.g, f * rgb.b );
     }
   }
 }
