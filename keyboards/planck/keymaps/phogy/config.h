@@ -13,7 +13,7 @@
 
 #define ENCODER_RESOLUTION 4
 #ifdef COMBO_ENABLE
-#define COMBO_COUNT 4
+#define COMBO_COUNT 5
 #define COMBO_TERM 40
 #define TAPPING_TERM 125
 #endif

@@ -142,10 +142,12 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     const uint16_t PROGMEM tab_combo[] = {SE_AE, SE_OSLH, COMBO_END};
     const uint16_t PROGMEM comma_combo[] = {KC_R, KC_L, COMBO_END};
     const uint16_t PROGMEM dash_combo[] = {KC_H, KC_T, COMBO_END};
+    const uint16_t PROGMEM underscore_combo[] = {KC_D, KC_H, COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {COMBO(escape_combo, KC_ESC),
                                        COMBO(tab_combo, KC_TAB),
                                        COMBO(dash_combo, SE_MINS),
+                                       COMBO(underscore_combo, SE_UNDS),
                                        COMBO(comma_combo, KC_COMMA)};
 #endif
 
