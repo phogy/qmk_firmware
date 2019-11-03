@@ -1,11 +1,6 @@
 #include QMK_KEYBOARD_H
 #include "muse.h"
 #include "eeprom.h"
-#include "keymap_german.h"
-#include "keymap_nordic.h"
-#include "keymap_french.h"
-#include "keymap_spanish.h"
-#include "keymap_hungarian.h"
 #include "keymap_swedish.h"
 #include "led_tables.h"
 #include "rgb_matrix_types.h"
@@ -48,23 +43,23 @@ enum planck_layers {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT_planck_grid(
             RALT(KC_7), RALT(KC_0), RALT(KC_8), RALT(KC_9), RALT(KC_4), KC_PSCREEN,
-            KC_RBRACKET, NO_APOS, LSFT(NO_PLUS), LSFT(KC_6), NO_LESS, LSFT(NO_LESS),
-            NO_SCLN, NO_SLSH, NO_LPRN, NO_RPRN, RALT(NO_LESS), LCA(KC_TAB),
-            KC_DELETE, LSFT(KC_3), NO_MINS, GRAVE_NORDIC, LSFT(KC_2), TILDE_NORDIC,
-            NO_COLN, NO_EQL, NO_AT, LSFT(KC_1), RALT(KC_MINUS), NO_UNDS,
-            KC_ENTER, LSFT(KC_5), NO_PLUS, LSFT(NO_APOS), CIRC_NORDIC, NO_HALF,
+            KC_RBRACKET, SE_APOS, LSFT(SE_PLUS), LSFT(KC_6), SE_LESS, LSFT(SE_LESS),
+            SE_SCLN, SE_SLSH, SE_LPRN, SE_RPRN, RALT(SE_LESS), LCA(KC_TAB),
+            KC_DELETE, LSFT(KC_3), SE_MINS, GRAVE_NORDIC, LSFT(KC_2), TILDE_NORDIC,
+            SE_COLN, SE_EQL, SE_AT, LSFT(KC_1), RALT(KC_MINUS), SE_UNDS,
+            KC_ENTER, LSFT(KC_5), SE_PLUS, LSFT(SE_APOS), CIRC_NORDIC, SE_HALF,
             KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,KC_TRANSPARENT,
-            KC_NO, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_APP, NO_UNDS),
+            KC_NO, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_APP, SE_UNDS),
 
   [_BASE] = LAYOUT_planck_grid(
-            NO_AM, NO_AE, NO_OSLH, KC_P, KC_Y, KC_ESCAPE,
-            NO_ACUT, KC_F, KC_G, KC_C, KC_R, KC_L,
+            SE_AM, SE_AE, SE_OSLH, KC_P, KC_Y, KC_ESCAPE,
+            SE_ACUT, KC_F, KC_G, KC_C, KC_R, KC_L,
             KC_A, KC_O, KC_E, KC_U, KC_I, KC_TAB,
             KC_BSPACE, KC_D, KC_H, KC_T, KC_N, KC_S,
             KC_DOT, KC_Q, KC_J, KC_K, KC_X, KC_COMMA,
             KC_ENTER, KC_B, KC_M, KC_W, KC_V, KC_Z,
             MO(_FUNCTION), KC_LCTRL, KC_LALT, KC_LSHIFT, LOWER, KC_SPACE,
-            KC_NO, RAISE, KC_RSHIFT, KC_RALT, KC_LGUI, NO_MINS),
+            KC_NO, RAISE, KC_RSHIFT, KC_RALT, KC_LGUI, SE_MINS),
 
 
   [_RAISE] = LAYOUT_planck_grid(
@@ -90,9 +85,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_FUNCTION] = LAYOUT_planck_grid(
     LCTL(KC_Q), LCTL(KC_W), LCTL(KC_E),LCTL(KC_R), KC_TRANSPARENT,KC_RBRACKET,
     KC_TRANSPARENT,KC_NUMLOCK,KC_KP_7,KC_KP_8,KC_KP_9,KC_KP_ASTERISK,
-    LCTL(KC_A), LCTL(KC_S), LCTL(KC_D), LCTL(KC_F), KC_TRANSPARENT, LSFT(NO_ACUT),
+    LCTL(KC_A), LCTL(KC_S), LCTL(KC_D), LCTL(KC_F), KC_TRANSPARENT, LSFT(SE_ACUT),
     KC_TRANSPARENT,KC_KP_SLASH,KC_KP_4,KC_KP_5,KC_KP_6,KC_KP_MINUS,
-    LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_TRANSPARENT, NO_ACUT,
+    LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_TRANSPARENT, SE_ACUT,
     KC_TRANSPARENT,KC_NO,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
     TG(_FUNCTION),LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT), LGUI(KC_V), KC_TRANSPARENT,
     KC_NO,KC_TRANSPARENT,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
@@ -143,14 +138,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 };
 
 #ifdef COMBO_ENABLE
-    const uint16_t PROGMEM escape_combo[] = {NO_AM, NO_AE, COMBO_END};
-    const uint16_t PROGMEM tab_combo[] = {NO_AE, NO_OSLH, COMBO_END};
+    const uint16_t PROGMEM escape_combo[] = {SE_AM, SE_AE, COMBO_END};
+    const uint16_t PROGMEM tab_combo[] = {SE_AE, SE_OSLH, COMBO_END};
     const uint16_t PROGMEM comma_combo[] = {KC_R, KC_L, COMBO_END};
     const uint16_t PROGMEM dash_combo[] = {KC_H, KC_T, COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {COMBO(escape_combo, KC_ESC),
                                        COMBO(tab_combo, KC_TAB),
-                                       COMBO(dash_combo, NO_MINS),
+                                       COMBO(dash_combo, SE_MINS),
                                        COMBO(comma_combo, KC_COMMA)};
 #endif
 
