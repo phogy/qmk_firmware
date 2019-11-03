@@ -446,8 +446,8 @@ void led_set_user(uint8_t usb_led)
     planck_ez_left_led_off();
   }
   if (usb_led & (1 << USB_LED_NUM_LOCK)) {
-    planck_ez_right_led_on();
-  } else {
     planck_ez_right_led_off();
+  } else {
+    planck_ez_right_led_on();
   }
 }
