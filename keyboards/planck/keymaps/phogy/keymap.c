@@ -438,6 +438,21 @@ bool music_mask_user(uint16_t keycode) {
         return true;
     }
 }
+
 uint32_t layer_state_set_user(uint32_t state) {
     return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
+}
+
+void led_set_user(uint8_t usb_led)
+{
+  if (usb_led & (1 << USB_LED_CAPS_LOCK)) {
+    planck_ez_left_led_on();
+  } else {
+    planck_ez_left_led_off();
+  }
+  if (usb_led & (1 << USB_LED_NUM_LOCK)) {
+    planck_ez_right_led_on();
+  } else {
+    planck_ez_right_led_off();
+  }
 }
