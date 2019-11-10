@@ -88,9 +88,9 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     LCTL(KC_A), LCTL(KC_S), LCTL(KC_D), LCTL(KC_F), KC_TRANSPARENT, LSFT(SE_ACUT),
     KC_TRANSPARENT,KC_KP_SLASH,KC_KP_4,KC_KP_5,KC_KP_6,KC_KP_MINUS,
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_TRANSPARENT, SE_ACUT,
-    KC_TRANSPARENT,KC_NO,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
+    KC_TRANSPARENT,KC_AUDIO_VOL_UP,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
     TG(_FUNCTION),LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT), LGUI(KC_V), KC_TRANSPARENT,
-    KC_NO,KC_TRANSPARENT,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
+    KC_NO,KC_AUDIO_VOL_DOWN,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
 
   [_MIDIPAD] = LAYOUT_planck_grid(
     MI_C_3, MI_Cs_3, MI_D_3, MI_Ds_3, MI_E_3, MI_F_3, MI_Fs_3, MI_G_3, MI_Gs_3, MI_A_3, MI_As_3, MI_B_3,
@@ -141,7 +141,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     const uint16_t PROGMEM escape_combo[] = {SE_AM, SE_AE, COMBO_END};
     const uint16_t PROGMEM tab_combo[] = {SE_AE, SE_OSLH, COMBO_END};
     const uint16_t PROGMEM comma_combo[] = {KC_R, KC_L, COMBO_END};
-    const uint16_t PROGMEM dash_combo[] = {KC_H, KC_T, COMBO_END};
+    const uint16_t PROGMEM dash_combo[] = {KC_M, KC_W, COMBO_END};
     const uint16_t PROGMEM underscore_combo[] = {KC_D, KC_H, COMBO_END};
 
     combo_t key_combos[COMBO_COUNT] = {COMBO(escape_combo, KC_ESC),
