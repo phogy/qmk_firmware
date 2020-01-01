@@ -6,7 +6,7 @@
 */
 
 #ifdef AUDIO_ENABLE
-#define STARTUP_SONG SONG(PLANCK_SOUND)
+#define STARTUP_SONG SONG(NO_SOUND)
 #endif
 
 #define MIDI_ADVANCED
@@ -25,6 +25,7 @@
   #define PLANCK_EZ_LED_ADJUST 3
 #endif
 
+#define RGB_MATRIX_HUE_STEP 2
 /*
   Set any config.h overrides for your specific keymap here.
   See config.h options at https://docs.qmk.fm/#/config_options?id=the-configh-file
