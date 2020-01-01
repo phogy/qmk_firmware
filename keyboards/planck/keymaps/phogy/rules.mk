@@ -4,4 +4,4 @@ SRC += muse.c
 LINK_TIME_OPTIMIZATION_ENABLE = yes
 COMMAND_ENABLE = no
 MIDI_ENABLE = yes            # MIDI controls
-COMBO_ENABLE = yes
+COMBO_ENABLE = no
