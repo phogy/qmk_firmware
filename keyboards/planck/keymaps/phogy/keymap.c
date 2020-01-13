@@ -22,7 +22,8 @@ enum planck_keycodes {
   TILDE_NORDIC,
   CIRC_NORDIC,
   CLEAR_EEPROM,
-  MOMENTARY_REMOVE_GAMING
+  MOMENTARY_REMOVE_GAMING,
+  TOGGLE_FORCE_OTHER_SHIFT
 };
 
 enum planck_layers {
@@ -79,7 +80,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,KC_TRANSPARENT,RGB_SAI,RGB_SAD,KC_TRANSPARENT,KC_TRANSPARENT,
     TO(_MIDIPIANO),TG(_GAMING),AU_TOG,MU_TOG,MU_MOD,KC_TRANSPARENT,
     KC_TRANSPARENT,RGB_TOG,RGB_VAI,RGB_VAD,KC_TRANSPARENT,RESET,
-    TO(_MIDISCALE),KC_TRANSPARENT,CMB_TOG,KC_CAPSLOCK,LED_LEVEL,KC_TRANSPARENT,
+    TO(_MIDISCALE),KC_TRANSPARENT,TOGGLE_FORCE_OTHER_SHIFT,KC_CAPSLOCK,LED_LEVEL,KC_TRANSPARENT,
     TOGGLE_LAYER_COLOR,RGB_MOD,RGB_HUI,RGB_HUD,KC_TRANSPARENT,CLEAR_EEPROM,
     TG(_FUNCTION),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
     KC_NO,KC_TRANSPARENT,KC_AUDIO_VOL_DOWN,KC_MEDIA_PLAY_PAUSE,KC_AUDIO_VOL_UP,KC_TRANSPARENT),
@@ -344,6 +345,9 @@ void rgb_matrix_indicators_user(void) {
   set_layer_color(biton32(layer_state));
 }
 
+static bool isForceAltShift = false;
+static bool isFirstShiftedCharacter = false;
+
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case RGB_SLD:
@@ -378,7 +382,59 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         layer_on(_GAMING);
       }
       return false;
+    case TOGGLE_FORCE_OTHER_SHIFT:
+      if (record->event.pressed) {
+        isForceAltShift = !isForceAltShift;
+      }
+    case KC_LSFT:
+    case KC_RSFT:
+      isFirstShiftedCharacter = (record->event.pressed);
+      break;
   }
+
+  if (!IS_LAYER_ON(_GAMING) && isForceAltShift && isFirstShiftedCharacter)
+  {
+    switch (keycode) {
+      case KC_A:
+      case KC_O:
+      case KC_E:
+      case KC_U:
+      case KC_I:
+      case SE_AM:
+      case SE_AE:
+      case SE_OSLH:
+      case KC_P:
+      case KC_Y:
+      case KC_Q:
+      case KC_J:
+      case KC_K:
+      case KC_X:
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          return false;
+        isFirstShiftedCharacter = false;
+        break;
+      case KC_F:
+      case KC_G:
+      case KC_C:
+      case KC_R:
+      case KC_L:
+      case KC_D:
+      case KC_H:
+      case KC_T:
+      case KC_N:
+      case KC_S:
+      case KC_B:
+      case KC_M:
+      case KC_W:
+      case KC_V:
+      case KC_Z:
+        if (get_mods() & MOD_BIT(KC_RSHIFT))
+          return false;
+        isFirstShiftedCharacter = false;
+        break;
+    }
+  }
+
   return true;
 }
 
