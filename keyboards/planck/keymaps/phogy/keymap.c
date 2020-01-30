@@ -23,7 +23,17 @@ enum planck_keycodes {
   CIRC_NORDIC,
   CLEAR_EEPROM,
   MOMENTARY_REMOVE_GAMING,
-  TOGGLE_FORCE_OTHER_SHIFT
+  TOGGLE_FORCE_OTHER_SHIFT,
+  AE_DANISH,
+  OE_DANISH,
+  U_GERMAN,
+  CEDILJ,
+  SZ_GERMAN,
+  N_SPANISH,
+  MICRO,
+  DEGREE,
+  INV_QUESTION,
+  INV_EXCLAMATION
 };
 
 enum planck_layers {
@@ -33,6 +43,7 @@ enum planck_layers {
   _RAISE,
   _ADJUST,
   _FUNCTION,
+  _SPECIALCHARS,
   _MIDIPAD,
   _MIDIPIANO,
   _MIDISCALE,
@@ -62,7 +73,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
             KC_DOT, KC_Q, KC_J, KC_K, KC_X, KC_COMMA,
             KC_ENTER, KC_B, KC_M, KC_W, KC_V, KC_Z,
             MO(_FUNCTION), KC_LCTRL, KC_LALT, KC_LSHIFT, LOWER, KC_SPACE,
-            KC_NO, RAISE, KC_RSHIFT, KC_RALT, KC_LGUI, SE_MINS),
+            KC_NO, RAISE, KC_RSHIFT, KC_RALT, KC_LGUI, LT(_SPECIALCHARS, SE_MINS)),
 
 
   [_RAISE] = LAYOUT_planck_grid(
@@ -94,6 +105,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,KC_NO,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
     TG(_FUNCTION),LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT), LGUI(KC_V), KC_TRANSPARENT,
     KC_NO,KC_NO,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
+
+  [_SPECIALCHARS] = LAYOUT_planck_grid(
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    INV_QUESTION, KC_TRANSPARENT, KC_TRANSPARENT, CEDILJ, KC_TRANSPARENT, KC_TRANSPARENT, 
+    AE_DANISH, OE_DANISH, SE_EURO, U_GERMAN, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, DEGREE, KC_TRANSPARENT, KC_TRANSPARENT, N_SPANISH, SZ_GERMAN, 
+    INV_EXCLAMATION, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, MICRO, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
+  ),
 
   [_MIDIPAD] = LAYOUT_planck_grid(
     MI_C_3, MI_Cs_3, MI_D_3, MI_Ds_3, MI_E_3, MI_F_3, MI_Fs_3, MI_G_3, MI_Gs_3, MI_A_3, MI_As_3, MI_B_3,
@@ -207,6 +229,15 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {134,255,213}, {0,0,0}, {0,0,255}, {0,0,255}, {0,0,255}, {32,176,255},
             {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0},
             {0,0,0}, {0,0,255}, {32,176,255}, {32,176,255}, {134,255,213} },
+
+    [_SPECIALCHARS] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {32,176,255}, {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0},
+            {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0}, {0,0,0},
+            {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {32,176,255}, {32,176,255},
+            {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0}, {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0},
+            {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {85,203,128} },
 
     [_MIDIPAD] = { {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
                 {134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},{134,255,128},
@@ -368,6 +399,71 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CIRC_NORDIC:
       if (record->event.pressed) {
         SEND_STRING(SS_DOWN(X_LSHIFT)SS_TAP(X_RBRACKET)SS_UP(X_LSHIFT)SS_TAP(X_SPACE));
+      }
+      return false;
+    case AE_DANISH:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_8)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+        else
+          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_0)SS_UP(X_LALT));
+      }
+      return false;
+    case OE_DANISH:
+       if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+        else
+          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_8)SS_UP(X_LALT));
+      }
+      return false;
+    case U_GERMAN:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_TAP(X_RBRACKET)SS_DOWN(X_LSHIFT)SS_TAP(X_U));
+        else
+          SEND_STRING(SS_TAP(X_RBRACKET)SS_TAP(X_U));
+      }
+      return false;
+    case CEDILJ:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_9)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+        else
+          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_1)SS_UP(X_LALT));
+      }
+      return false;
+    case SZ_GERMAN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_UP(X_LALT));
+      }
+      return false;
+    case N_SPANISH:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_0)SS_TAP(X_KP_9)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+        else
+          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1)SS_UP(X_LALT));
+      }
+      return false;
+    case MICRO:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_1)SS_UP(X_LALT));
+      }
+      return false;
+    case DEGREE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_UP(X_LALT));
+      }
+      return false;
+    case INV_QUESTION:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_1)SS_UP(X_LALT));
+      }
+      return false;
+    case INV_EXCLAMATION:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_1)SS_UP(X_LALT));
       }
       return false;
     case CLEAR_EEPROM:

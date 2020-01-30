@@ -15,8 +15,8 @@
 #ifdef COMBO_ENABLE
 #define COMBO_COUNT 5
 #define COMBO_TERM 40
-#define TAPPING_TERM 125
 #endif
+#define TAPPING_TERM 125
 
 #define PLANCK_EZ_USER_LEDS
 #ifndef PLANCK_EZ_USER_LEDS
