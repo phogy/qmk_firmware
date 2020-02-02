@@ -30,10 +30,19 @@ enum planck_keycodes {
   CEDILJ,
   SZ_GERMAN,
   N_SPANISH,
-  MICRO,
-  DEGREE,
+  MICRO_SIGN,
+  DEGREE_SIGN,
   INV_QUESTION,
-  INV_EXCLAMATION
+  INV_EXCLAMATION,
+  REGISTERED_SIGN,
+  TRADEMARK_SIGN,
+  COPYRIGHT_SIGN,
+  EM_DASH,
+  SUPERSCRIPT_TWO,
+  SUPERSCRIPT_THREE,
+  HALF_SIGN,
+  QUARTER_SIGN,
+  THREE_QUARTERS_SIGN
 };
 
 enum planck_layers {
@@ -107,16 +116,16 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_NO,KC_NO,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
 
   [_SPECIALCHARS] = LAYOUT_planck_grid(
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
-    INV_QUESTION, KC_TRANSPARENT, KC_TRANSPARENT, CEDILJ, KC_TRANSPARENT, KC_TRANSPARENT, 
+    HALF_SIGN, SUPERSCRIPT_TWO, SUPERSCRIPT_THREE, QUARTER_SIGN, THREE_QUARTERS_SIGN, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, INV_QUESTION, CEDILJ, REGISTERED_SIGN, KC_TRANSPARENT, 
     AE_DANISH, OE_DANISH, SE_EURO, U_GERMAN, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, DEGREE, KC_TRANSPARENT, KC_TRANSPARENT, N_SPANISH, SZ_GERMAN, 
+    KC_TRANSPARENT, DEGREE_SIGN, EM_DASH, TRADEMARK_SIGN, N_SPANISH, SZ_GERMAN, 
     INV_EXCLAMATION, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, MICRO, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT,
+    KC_TRANSPARENT, KC_TRANSPARENT, MICRO_SIGN, COPYRIGHT_SIGN, KC_TRANSPARENT, KC_TRANSPARENT,
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
     KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
   ),
-
+  
   [_MIDIPAD] = LAYOUT_planck_grid(
     MI_C_3, MI_Cs_3, MI_D_3, MI_Ds_3, MI_E_3, MI_F_3, MI_Fs_3, MI_G_3, MI_Gs_3, MI_A_3, MI_As_3, MI_B_3,
     MI_C_2, MI_Cs_2, MI_D_2, MI_Ds_2, MI_E_2, MI_F_2, MI_Fs_2, MI_G_2, MI_Gs_2, MI_A_2, MI_As_2, MI_B_2,
@@ -230,11 +239,11 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {0,0,0}, {134,255,213}, {134,255,213}, {134,255,213}, {134,255,213}, {0,0,0},
             {0,0,0}, {0,0,255}, {32,176,255}, {32,176,255}, {134,255,213} },
 
-    [_SPECIALCHARS] = { {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-            {32,176,255}, {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0},
+    [_SPECIALCHARS] = { {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0},
+            {0,0,0}, {0,0,0}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0},
             {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0}, {0,0,0},
-            {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {32,176,255}, {32,176,255},
-            {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
+            {0,0,0}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
+            {32,176,255}, {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
             {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0},
             {0,0,0}, {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0},
             {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {85,203,128} },
@@ -446,12 +455,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1)SS_UP(X_LALT));
       }
       return false;
-    case MICRO:
+    case MICRO_SIGN:
       if (record->event.pressed) {
         SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_1)SS_UP(X_LALT));
       }
       return false;
-    case DEGREE:
+    case DEGREE_SIGN:
       if (record->event.pressed) {
         SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_UP(X_LALT));
       }
@@ -464,6 +473,51 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case INV_EXCLAMATION:
       if (record->event.pressed) {
         SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_1)SS_UP(X_LALT));
+      }
+      return false;
+    case REGISTERED_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_4)SS_UP(X_LALT));
+      }
+      return false;
+    case TRADEMARK_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_3)SS_UP(X_LALT));
+      }
+      return false;
+    case COPYRIGHT_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_9)SS_UP(X_LALT));
+      }
+      return false;
+    case EM_DASH:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1)SS_UP(X_LALT));
+      }
+      return false;
+    case SUPERSCRIPT_TWO:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8)SS_UP(X_LALT));
+      }
+      return false;
+    case SUPERSCRIPT_THREE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9)SS_UP(X_LALT));
+      }
+      return false;
+    case HALF_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_9)SS_UP(X_LALT));
+      }
+      return false;
+    case QUARTER_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_8)SS_UP(X_LALT));
+      }
+      return false;
+    case THREE_QUARTERS_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_0)SS_UP(X_LALT));
       }
       return false;
     case CLEAR_EEPROM:
