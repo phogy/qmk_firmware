@@ -27,9 +27,10 @@ enum planck_keycodes {
   AE_DANISH,
   OE_DANISH,
   U_GERMAN,
-  CEDILJ,
+  C_CEDILJ,
   SZ_GERMAN,
   N_SPANISH,
+  CENT_SIGN,
   MICRO_SIGN,
   DEGREE_SIGN,
   INV_QUESTION,
@@ -37,12 +38,21 @@ enum planck_keycodes {
   REGISTERED_SIGN,
   TRADEMARK_SIGN,
   COPYRIGHT_SIGN,
-  EM_DASH,
+  LONG_DASH,
   SUPERSCRIPT_TWO,
   SUPERSCRIPT_THREE,
   HALF_SIGN,
   QUARTER_SIGN,
-  THREE_QUARTERS_SIGN
+  THREE_QUARTERS_SIGN,
+  MULTIPLY_SIGN,
+  DIVISION_SIGN,
+  ELLIPSIS_SIGN,
+  PERMILLE_SIGN,
+  BULLET_SIGN,
+  MIDDLE_DOT,
+  PLUSMINUS_SIGN,
+  NO_BREAK_SPACE,
+  SOFT_HYPHEN
 };
 
 enum planck_layers {
@@ -103,28 +113,29 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     TO(_MIDISCALE),KC_TRANSPARENT,TOGGLE_FORCE_OTHER_SHIFT,KC_CAPSLOCK,LED_LEVEL,KC_TRANSPARENT,
     TOGGLE_LAYER_COLOR,RGB_MOD,RGB_HUI,RGB_HUD,KC_TRANSPARENT,CLEAR_EEPROM,
     TG(_FUNCTION),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
-    KC_NO,KC_TRANSPARENT,KC_AUDIO_VOL_DOWN,KC_MEDIA_PLAY_PAUSE,KC_AUDIO_VOL_UP,KC_TRANSPARENT),
+    KC_NO,KC_TRANSPARENT,KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT),
 
   [_FUNCTION] = LAYOUT_planck_grid(
-    LCTL(KC_Q), LCTL(KC_W), LCTL(KC_E),LCTL(KC_R), KC_TRANSPARENT,KC_RBRACKET,
+    LCTL(KC_Q), LCTL(KC_W), LCTL(KC_E),LCTL(KC_R), KC_AUDIO_MUTE,KC_RBRACKET,
     KC_TRANSPARENT,KC_NUMLOCK,KC_KP_7,KC_KP_8,KC_KP_9,KC_KP_ASTERISK,
     LCTL(KC_A), LCTL(KC_S), LCTL(KC_D), LCTL(KC_F), KC_AUDIO_VOL_UP, LSFT(SE_ACUT),
     KC_TRANSPARENT,KC_KP_SLASH,KC_KP_4,KC_KP_5,KC_KP_6,KC_KP_MINUS,
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_AUDIO_VOL_DOWN, SE_ACUT,
-    KC_TRANSPARENT,KC_NO,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
-    TG(_FUNCTION),LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT), LGUI(KC_V), KC_TRANSPARENT,
-    KC_NO,KC_NO,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
+    KC_TRANSPARENT,KC_MEDIA_PREV_TRACK,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
+    TG(_FUNCTION),LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT), LGUI(KC_V), KC_MEDIA_PLAY_PAUSE,
+    KC_NO,KC_MEDIA_NEXT_TRACK,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
 
   [_SPECIALCHARS] = LAYOUT_planck_grid(
-    HALF_SIGN, SUPERSCRIPT_TWO, SUPERSCRIPT_THREE, QUARTER_SIGN, THREE_QUARTERS_SIGN, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, INV_QUESTION, CEDILJ, REGISTERED_SIGN, KC_TRANSPARENT, 
-    AE_DANISH, OE_DANISH, SE_EURO, U_GERMAN, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, DEGREE_SIGN, EM_DASH, TRADEMARK_SIGN, N_SPANISH, SZ_GERMAN, 
-    INV_EXCLAMATION, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, MICRO_SIGN, COPYRIGHT_SIGN, KC_TRANSPARENT, KC_TRANSPARENT,
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
-    KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT
+    HALF_SIGN, SUPERSCRIPT_TWO, SUPERSCRIPT_THREE, QUARTER_SIGN, THREE_QUARTERS_SIGN, KC_NO,
+    PLUSMINUS_SIGN, KC_NO, INV_QUESTION, C_CEDILJ, REGISTERED_SIGN, KC_NO, 
+    AE_DANISH, OE_DANISH, SE_EURO, U_GERMAN, KC_NO, SOFT_HYPHEN, 
+    KC_NO, DEGREE_SIGN, LONG_DASH, TRADEMARK_SIGN, N_SPANISH, SZ_GERMAN, 
+    ELLIPSIS_SIGN, KC_NO, KC_NO, INV_EXCLAMATION, MULTIPLY_SIGN, DIVISION_SIGN, 
+    BULLET_SIGN, PERMILLE_SIGN, MICRO_SIGN, COPYRIGHT_SIGN, KC_NO, CENT_SIGN,
+    KC_NO, KC_NO, KC_NO, KC_LSHIFT, KC_NO, NO_BREAK_SPACE, 
+    KC_NO, KC_NO, KC_RSHIFT, KC_NO, KC_NO, KC_NO
   ),
+  
   
   [_MIDIPAD] = LAYOUT_planck_grid(
     MI_C_3, MI_Cs_3, MI_D_3, MI_Ds_3, MI_E_3, MI_F_3, MI_Fs_3, MI_G_3, MI_Gs_3, MI_A_3, MI_As_3, MI_B_3,
@@ -240,11 +251,11 @@ const uint8_t PROGMEM ledmap[][DRIVER_LED_TOTAL][3] = {
             {0,0,0}, {0,0,255}, {32,176,255}, {32,176,255}, {134,255,213} },
 
     [_SPECIALCHARS] = { {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0},
-            {0,0,0}, {0,0,0}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0},
-            {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0}, {0,0,0},
+            {32,176,255}, {0,0,0}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0},
+            {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0}, {32,176,255},
             {0,0,0}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255},
-            {32,176,255}, {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0}, {0,0,0},
-            {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {0,0,0},
+            {32,176,255}, {0,0,0}, {0,0,0}, {32,176,255}, {32,176,255}, {32,176,255},
+            {32,176,255}, {32,176,255}, {32,176,255}, {32,176,255}, {0,0,0}, {32,176,255},
             {0,0,0}, {0,0,0}, {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0},
             {0,0,0}, {32,176,255}, {0,0,0}, {0,0,0}, {85,203,128} },
 
@@ -413,17 +424,17 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case AE_DANISH:
       if (record->event.pressed) {
         if (get_mods() & MOD_BIT(KC_LSHIFT))
-          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_8)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+          SEND_STRING(SS_UP(X_LSHIFT)SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_8))SS_DOWN(X_LSHIFT));
         else
-          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_0)SS_UP(X_LALT));
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_0)));
       }
       return false;
     case OE_DANISH:
        if (record->event.pressed) {
         if (get_mods() & MOD_BIT(KC_LSHIFT))
-          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+          SEND_STRING(SS_UP(X_LSHIFT)SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_6))SS_DOWN(X_LSHIFT));
         else
-          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_8)SS_UP(X_LALT));
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_8)));
       }
       return false;
     case U_GERMAN:
@@ -434,90 +445,141 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
           SEND_STRING(SS_TAP(X_RBRACKET)SS_TAP(X_U));
       }
       return false;
-    case CEDILJ:
+    case C_CEDILJ:
       if (record->event.pressed) {
         if (get_mods() & MOD_BIT(KC_LSHIFT))
-          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_9)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+          SEND_STRING(SS_UP(X_LSHIFT)SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_9))SS_DOWN(X_LSHIFT));
         else
-          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_1)SS_UP(X_LALT));
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_TAP(X_KP_1)));
       }
       return false;
     case SZ_GERMAN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_2)SS_TAP(X_KP_3)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_2)SS_TAP(X_KP_3)));
       }
       return false;
     case N_SPANISH:
       if (record->event.pressed) {
         if (get_mods() & MOD_BIT(KC_LSHIFT))
-          SEND_STRING(SS_UP(X_LSHIFT)SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_0)SS_TAP(X_KP_9)SS_UP(X_LALT)SS_DOWN(X_LSHIFT));
+          SEND_STRING(SS_UP(X_LSHIFT)SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_0)SS_TAP(X_KP_9))SS_DOWN(X_LSHIFT));
         else
-          SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1)SS_UP(X_LALT));
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_1)));
+      }
+      return false;
+    case CENT_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_2)));
       }
       return false;
     case MICRO_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_1)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_1)));
       }
       return false;
     case DEGREE_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_6)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_6)));
       }
       return false;
     case INV_QUESTION:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_1)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_1)));
       }
       return false;
     case INV_EXCLAMATION:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_1)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_1)));
       }
       return false;
     case REGISTERED_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_4)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_4)));
       }
       return false;
     case TRADEMARK_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_3)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_3)));
       }
       return false;
     case COPYRIGHT_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_9)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_9)));
       }
       return false;
-    case EM_DASH:
+    case LONG_DASH:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1)SS_UP(X_LALT));
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_0))SS_DOWN(X_LSHIFT));
+        else
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_5)SS_TAP(X_KP_1)));
       }
       return false;
     case SUPERSCRIPT_TWO:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_8)));
       }
       return false;
     case SUPERSCRIPT_THREE:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_9)));
       }
       return false;
     case HALF_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_9)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_9)));
       }
       return false;
     case QUARTER_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_8)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_8)));
       }
       return false;
     case THREE_QUARTERS_SIGN:
       if (record->event.pressed) {
-        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_0)SS_UP(X_LALT));
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_9)SS_TAP(X_KP_0)));
+      }
+      return false;
+    case MULTIPLY_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_1)SS_TAP(X_KP_5)));
+      }
+      return false;
+    case DIVISION_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_2)SS_TAP(X_KP_4)SS_TAP(X_KP_7)));
+      }
+      return false;
+    case ELLIPSIS_SIGN:
+      if (record->event.pressed) {
+        if (get_mods() & MOD_BIT(KC_LSHIFT))
+          SEND_STRING(SS_UP(X_LSHIFT)SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_3))SS_DOWN(X_LSHIFT));
+        else
+          SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_3)SS_TAP(X_KP_3)));
+      }
+      return false;
+    case PERMILLE_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_3)SS_TAP(X_KP_7)));
+      }
+      return false;
+    case BULLET_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_4)SS_TAP(X_KP_9)));
+      }
+      return false;
+    case PLUSMINUS_SIGN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_7)));
+      }
+      return false;
+    case NO_BREAK_SPACE:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_0)));
+      }
+      return false;
+    case SOFT_HYPHEN:
+      if (record->event.pressed) {
+        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_3)));
       }
       return false;
     case CLEAR_EEPROM:
