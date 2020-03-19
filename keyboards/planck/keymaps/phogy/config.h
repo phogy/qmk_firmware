@@ -18,6 +18,13 @@
 #endif
 #define TAPPING_TERM 125
 
+#define MK_3_SPEED
+#define MK_MOMENTARY_ACCEL
+#define MK_C_OFFSET_UNMOD 4
+#define MK_C_OFFSET_0 1
+#define MK_C_OFFSET_1 20
+#define MK_C_OFFSET_2 50
+
 #define PLANCK_EZ_USER_LEDS
 #ifndef PLANCK_EZ_USER_LEDS
   #define PLANCK_EZ_LED_LOWER 1
