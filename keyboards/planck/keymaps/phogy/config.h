@@ -17,6 +17,7 @@
 #define COMBO_TERM 40
 #endif
 #define TAPPING_TERM 125
+#define RETRO_TAPPING
 
 #define MK_3_SPEED
 #define MK_MOMENTARY_ACCEL
