@@ -52,7 +52,9 @@ enum planck_keycodes {
   MIDDLE_DOT,
   PLUSMINUS_SIGN,
   NO_BREAK_SPACE,
-  SOFT_HYPHEN
+  SOFT_HYPHEN,
+  ALT_TAB_OPEN,
+  CTRL_TAB_OPEN
 };
 
 enum planck_layers {
@@ -72,11 +74,33 @@ enum planck_layers {
 #define LOWER MO(_LOWER)
 #define RAISE MO(_RAISE)
 
+#ifndef BUILD_PLANCK_EZ
+  #define LAYOUT_rev6_grid( \
+      k00, k01, k02, k03, k04, k05, k06, k07, k08, k09, k0a, k0b, \
+      k10, k11, k12, k13, k14, k15, k16, k17, k18, k19, k1a, k1b, \
+      k20, k21, k22, k23, k24, k25, k26, k27, k28, k29, k2a, k2b, \
+      k30, k31, k32, k33, k34, k35, k36, k37, k38, k39, k3a, k3b \
+  ) \
+  { \
+      { k00, k01, k02, k03, k04, k05 }, \
+      { k10, k11, k12, k13, k14, k15 }, \
+      { k20, k21, k22, k23, k24, k25 }, \
+      { k30, k31, k32, k39, k3a, k3b }, \
+      { k06, k07, k08, k09, k0a, k0b }, \
+      { k16, k17, k18, k19, k1a, k1b }, \
+      { k26, k27, k28, k29, k2a, k2b }, \
+      { k35, k37, k38, k33, k34, k36 } \
+  }
+
+  #undef LAYOUT_planck_grid 
+  #define LAYOUT_planck_grid LAYOUT_rev6_grid
+#endif
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
   [_LOWER] = LAYOUT_planck_grid(
             SE_LCBR, SE_RCBR, SE_LBRC, SE_RBRC, SE_DLR, KC_PSCREEN,
             KC_RBRACKET, SE_APOS, SE_QUES, SE_AMPR, SE_LESS, SE_GRTR,
-            SE_SCLN, SE_SLSH, SE_LPRN, SE_RPRN, SE_PIPE, LCA(KC_TAB),
+            SE_SCLN, SE_SLSH, SE_LPRN, SE_RPRN, SE_PIPE, ALT_TAB_OPEN,
             KC_DELETE, LSFT(KC_3), SE_MINS, GRAVE_NORDIC, SE_QUO2, TILDE_NORDIC,
             SE_COLN, SE_EQL, SE_AT, LSFT(KC_1), SE_BSLS, SE_UNDS,
             KC_ENTER, LSFT(KC_5), SE_PLUS, LSFT(SE_APOS), CIRC_NORDIC, SE_HALF,
@@ -95,14 +119,14 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 
   [_RAISE] = LAYOUT_planck_grid(
-            KC_1,KC_2,KC_3,KC_4,KC_5,KC_BRK,
-            KC_INSERT,KC_6,KC_7,KC_8,KC_9,KC_0,
-            KC_F1,KC_F2,KC_F3,KC_F4,KC_F5,KC_TRANSPARENT,
-            KC_TRANSPARENT,KC_PGUP,KC_HOME,KC_UP,KC_END,KC_F11,
-            KC_F6,KC_F7,KC_F8,KC_F9,KC_F10,KC_TRANSPARENT,
-            KC_TRANSPARENT,KC_PGDOWN,KC_LEFT,KC_DOWN,KC_RIGHT,KC_ENTER,
-            LWIN_T(KC_DOT),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
-            KC_NO,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_F12),
+            KC_1, KC_2, KC_3, KC_4, KC_5, KC_BRK, 
+            KC_INSERT, KC_6, KC_7, KC_8, KC_9, KC_0, 
+            KC_F1, KC_F2, KC_F3, KC_F4, KC_F5, CTRL_TAB_OPEN, 
+            KC_TRANSPARENT, KC_PGUP, KC_HOME, KC_UP, KC_END, KC_F11, 
+            KC_F6, KC_F7, KC_F8, KC_F9, KC_F10, KC_TRANSPARENT, 
+            KC_TRANSPARENT, KC_PGDOWN, KC_LEFT, KC_DOWN, KC_RIGHT, KC_ENTER, 
+            LWIN_T(KC_DOT), KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, 
+            KC_NO, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_F12), 
 
   [_ADJUST] = LAYOUT_planck_grid(
     MO(_MOUSE), TO(_MIDIPAD), KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
@@ -164,7 +188,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,KC_MS_WH_UP,KC_NO,KC_MS_UP,KC_NO,KC_MS_ACCEL0,
     KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,
     KC_TRANSPARENT,KC_MS_WH_DOWN,KC_MS_LEFT,KC_MS_DOWN,KC_MS_RIGHT,KC_MS_BTN2,
-    TO(_BASE),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_MS_ACCEL1,KC_TRANSPARENT,
+    TO(_BASE),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_MS_ACCEL1,KC_MS_ACCEL0,
     KC_NO,KC_MS_BTN1,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT
   ),
 
@@ -396,6 +420,8 @@ void rgb_matrix_indicators_user(void) {
 
 static bool isForceAltShift = false;
 static bool isFirstShiftedCharacter = false;
+static bool isAltTabActive = false;
+static bool isCtrlTabActive = false;
 
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
@@ -600,6 +626,28 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case KC_RSFT:
       isFirstShiftedCharacter = (record->event.pressed);
       break;
+    case ALT_TAB_OPEN:
+      if (record->event.pressed) {
+        if (!isAltTabActive) {
+          isAltTabActive = true;
+          register_code(KC_LALT);
+        }
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
+    case CTRL_TAB_OPEN:
+      if (record->event.pressed) {
+        if (!isCtrlTabActive) {
+          isCtrlTabActive = true;
+          register_code(KC_LCTRL);
+        }
+        register_code(KC_TAB);
+      } else {
+        unregister_code(KC_TAB);
+      }
+      break;
   }
 
   if (!IS_LAYER_ON(_GAMING) && isForceAltShift && isFirstShiftedCharacter)
@@ -717,6 +765,16 @@ bool music_mask_user(uint16_t keycode) {
 }
 
 uint32_t layer_state_set_user(uint32_t state) {
+    if (isAltTabActive)
+    {
+      unregister_code(KC_LALT);
+      isAltTabActive = false;
+    }
+    if (isCtrlTabActive)
+    {
+      unregister_code(KC_LCTRL);
+      isCtrlTabActive = false;
+    }
     return update_tri_layer_state(state, _LOWER, _RAISE, _ADJUST);
 }
 

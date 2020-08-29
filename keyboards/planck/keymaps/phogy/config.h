@@ -33,7 +33,7 @@
   #define PLANCK_EZ_LED_ADJUST 3
 #endif
 
-#define RGB_MATRIX_HUE_STEP 2
+#define RGB_MATRIX_HUE_STEP 4
 /*
   Set any config.h overrides for your specific keymap here.
   See config.h options at https://docs.qmk.fm/#/config_options?id=the-configh-file
