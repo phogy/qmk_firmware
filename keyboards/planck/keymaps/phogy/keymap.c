@@ -154,7 +154,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     AE_DANISH, OE_DANISH, SE_EURO, U_GERMAN, KC_NO, SOFT_HYPHEN, 
     KC_NO, DEGREE_SIGN, LONG_DASH, TRADEMARK_SIGN, N_SPANISH, SZ_GERMAN, 
     ELLIPSIS_SIGN, KC_NO, KC_NO, INV_EXCLAMATION, MULTIPLY_SIGN, DIVISION_SIGN, 
-    BULLET_SIGN, PERMILLE_SIGN, MICRO_SIGN, COPYRIGHT_SIGN, KC_NO, CENT_SIGN,
+    BULLET_SIGN, PERMILLE_SIGN, SE_MU, COPYRIGHT_SIGN, KC_NO, CENT_SIGN,
     KC_NO, KC_RCTRL, KC_RALT, KC_RSHIFT, KC_NO, NO_BREAK_SPACE, 
     KC_NO, KC_NO, KC_LSHIFT, KC_NO, KC_NO, KC_NO
   ),
@@ -493,11 +493,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
     case CENT_SIGN:
       if (record->event.pressed) {
         SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_6)SS_TAP(X_KP_2)));
-      }
-      return false;
-    case MICRO_SIGN:
-      if (record->event.pressed) {
-        SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_8)SS_TAP(X_KP_1)));
       }
       return false;
     case DEGREE_SIGN:
