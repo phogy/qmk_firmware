@@ -652,6 +652,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 
   if (!IS_LAYER_ON(_GAMING) && isForceAltShift && isFirstShiftedCharacter)
   {
+    const bool anyOtherModifierPressed = (get_mods() & MOD_MASK_CAG);
     switch (keycode) {
       case KC_A:
       case KC_O:
@@ -667,9 +668,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case KC_J:
       case KC_K:
       case KC_X:
-        if (get_mods() & MOD_BIT(KC_LSHIFT))
-          return false;
         isFirstShiftedCharacter = false;
+        if ((get_mods() & MOD_BIT(KC_LSHIFT)) && !anyOtherModifierPressed)
+        {
+          return false;
+        }
         break;
       case KC_F:
       case KC_G:
@@ -686,9 +689,11 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       case KC_W:
       case KC_V:
       case KC_Z:
-        if (get_mods() & MOD_BIT(KC_RSHIFT))
-          return false;
         isFirstShiftedCharacter = false;
+        if ((get_mods() & MOD_BIT(KC_RSHIFT)) && !anyOtherModifierPressed)
+        {
+          return false;
+        }
         break;
     }
   }
