@@ -24,6 +24,10 @@ enum planck_keycodes {
   CLEAR_EEPROM,
   MOMENTARY_REMOVE_GAMING,
   TOGGLE_FORCE_OTHER_SHIFT,
+  TOGGLE_MAC_MODE,
+  GENERIC_CUT,
+  GENERIC_COPY,
+  GENERIC_PASTE,
   AE_DANISH,
   OE_DANISH,
   U_GERMAN,
@@ -133,7 +137,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,RGB_SAI,RGB_SAD,KC_CALCULATOR,KC_TRANSPARENT,KC_TRANSPARENT,
     TO(_MIDISCALE2),TG(_GAMING),AU_TOG,MU_TOG,MU_MOD,KC_TRANSPARENT,
     KC_TRANSPARENT,RGB_TOG,RGB_VAI,RGB_VAD,KC_TRANSPARENT,RESET,
-    TO(_MIDISCALE),KC_TRANSPARENT,TOGGLE_FORCE_OTHER_SHIFT,KC_CAPSLOCK,LED_LEVEL,KC_TRANSPARENT,
+    TO(_MIDISCALE),TOGGLE_MAC_MODE,TOGGLE_FORCE_OTHER_SHIFT,KC_CAPSLOCK,LED_LEVEL,KC_TRANSPARENT,
     TOGGLE_LAYER_COLOR,RGB_MOD,RGB_HUI,RGB_HUD,KC_TRANSPARENT,CLEAR_EEPROM,
     TG(_FUNCTION),KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,KC_TRANSPARENT,LCA(KC_DELETE),
     KC_NO,KC_TRANSPARENT,KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT, KC_TRANSPARENT),
@@ -145,7 +149,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
     KC_TRANSPARENT,KC_KP_SLASH,KC_KP_4,KC_KP_5,KC_KP_6,KC_KP_MINUS,
     LCTL(KC_Z), LCTL(KC_X), LCTL(KC_C), LCTL(KC_V), KC_AUDIO_MUTE, KC_MEDIA_PLAY_PAUSE,
     KC_TRANSPARENT,KC_NO,KC_KP_1,KC_KP_2,KC_KP_3,KC_KP_PLUS,
-      TG(_FUNCTION),LSFT(KC_DELETE),LCTL(KC_INSERT),LSFT(KC_INSERT), LGUI(KC_V), KC_TRANSPARENT,
+      TG(_FUNCTION),GENERIC_CUT,GENERIC_COPY,GENERIC_PASTE, LGUI(KC_V), KC_TRANSPARENT,
     KC_NO,KC_COMMA,KC_KP_0,KC_DOT,KC_KP_DOT,KC_KP_ENTER),
 
   [_SPECIALCHARS] = LAYOUT_planck_grid(
@@ -422,14 +426,63 @@ static bool isForceAltShift = false;
 static bool isFirstShiftedCharacter = false;
 static bool isAltTabActive = false;
 static bool isCtrlTabActive = false;
+static bool isMacMode = false;
 
-bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+static bool register_translated_keyrecord(const keyrecord_t *original_record, uint16_t modifiers, uint16_t keycode) {
+  if (original_record->event.pressed) {
+    if (modifiers != 0)
+      register_mods(modifiers);
+    register_code(keycode);
+  } else {
+    if (modifiers != 0)
+      unregister_mods(modifiers);
+    unregister_code(keycode);
+  }
+  return false;
+}
+
+static bool process_record_user_mac(uint16_t keycode, const keyrecord_t *record) {
   switch (keycode) {
-    case RGB_SLD:
+    case GENERIC_CUT:
+      return register_translated_keyrecord(record, MOD_MASK_GUI, KC_X);
+    case GENERIC_COPY:
+      return register_translated_keyrecord(record, MOD_MASK_GUI, KC_C);
+    case GENERIC_PASTE:
+      return register_translated_keyrecord(record, MOD_MASK_GUI, KC_V);
+    case KC_LCTRL:
+      return register_translated_keyrecord(record, 0, KC_LCMD);
+    case KC_LGUI:
+      return register_translated_keyrecord(record, 0, KC_LCTRL);
+    case SE_LCBR:
+      return register_translated_keyrecord(record, MOD_MASK_SA, KC_8);
+    case SE_RCBR:
+      return register_translated_keyrecord(record, MOD_MASK_SA, KC_9);
+    case SE_PIPE:
+      return register_translated_keyrecord(record, MOD_MASK_ALT, KC_7);
+    case SE_BSLS:
+      return register_translated_keyrecord(record, MOD_MASK_SA, KC_7);
+    case GRAVE_NORDIC:
+      return register_translated_keyrecord(record, MOD_MASK_SA, SE_ACUT);
+    case CIRC_NORDIC:
+      return register_translated_keyrecord(record, MOD_MASK_SA, SE_QUOT);
+    case TILDE_NORDIC:
       if (record->event.pressed) {
-        rgblight_mode(1);
+        SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_RBRACKET)SS_UP(X_LALT)SS_TAP(X_SPACE));
       }
       return false;
+  }
+
+  return true;
+}
+
+static bool process_record_user_normal(uint16_t keycode, const keyrecord_t* record) {
+  switch (keycode) {
+    case GENERIC_CUT:
+      return register_translated_keyrecord(record, MOD_MASK_SHIFT, KC_DELETE);
+    case GENERIC_COPY:
+      return register_translated_keyrecord(record, MOD_MASK_CTRL, KC_INSERT);
+    case GENERIC_PASTE:
+      return register_translated_keyrecord(record, MOD_MASK_SHIFT, KC_INSERT);
     case GRAVE_NORDIC:
       if (record->event.pressed) {
         SEND_STRING(SS_DOWN(X_LSHIFT)SS_TAP(X_EQUAL)SS_UP(X_LSHIFT)SS_TAP(X_SPACE));
@@ -601,6 +654,29 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
         SEND_STRING(SS_LALT(SS_TAP(X_KP_0)SS_TAP(X_KP_1)SS_TAP(X_KP_7)SS_TAP(X_KP_3)));
       }
       return false;
+  }
+
+  return true;
+}
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+
+  if (isMacMode) {
+    if (!process_record_user_mac(keycode, record)) {
+      return false;
+    }
+  } else {
+    if (!process_record_user_normal(keycode, record)) {
+      return false;
+    }
+  }
+
+  switch (keycode) {
+    case RGB_SLD:
+      if (record->event.pressed) {
+        rgblight_mode(1);
+      }
+      return false;
     case CLEAR_EEPROM:
       if (record->event.pressed) {
         eeconfig_init();
@@ -617,6 +693,12 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         isForceAltShift = !isForceAltShift;
       }
+      break;
+    case TOGGLE_MAC_MODE:
+      if (record->event.pressed) {
+        isMacMode = !isMacMode;
+      }
+      break;
     case KC_LSFT:
     case KC_RSFT:
       isFirstShiftedCharacter = (record->event.pressed);
@@ -625,7 +707,7 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       if (record->event.pressed) {
         if (!isAltTabActive) {
           isAltTabActive = true;
-          register_code(KC_LALT);
+          register_code(isMacMode ? KC_LCMD : KC_LALT);
         }
         register_code(KC_TAB);
       } else {
@@ -767,7 +849,7 @@ bool music_mask_user(uint16_t keycode) {
 uint32_t layer_state_set_user(uint32_t state) {
     if (isAltTabActive)
     {
-      unregister_code(KC_LALT);
+      unregister_code(isMacMode ? KC_LCMD : KC_LALT);
       isAltTabActive = false;
     }
     if (isCtrlTabActive)
