@@ -470,6 +470,10 @@ static bool process_record_user_mac(uint16_t keycode, const keyrecord_t *record)
         SEND_STRING(SS_DOWN(X_LALT)SS_TAP(X_RBRACKET)SS_UP(X_LALT)SS_TAP(X_SPACE));
       }
       return false;
+    case KC_HOME:
+      return register_translated_keyrecord(record, MOD_MASK_GUI, KC_LEFT);
+    case KC_END:
+      return register_translated_keyrecord(record, MOD_MASK_GUI, KC_RIGHT);
   }
 
   return true;
